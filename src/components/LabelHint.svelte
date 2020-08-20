@@ -1,21 +1,21 @@
 <script>
 	export let title;
 	export let info;
+	export let title_width = "300px";
 	let showInfo = false;
 </script>
 
 <style>
-	label.label-hint {
+	.label-hint {
 		display: inline-flex;
 		margin-top: 1em;
 		width: 100%;
 	}
-	.label-hint-title {
+	.title {
 		margin-bottom: 4px;
 	}
 	.title {
 		display: inline-block;
-		width: 200px;
 	}
 	.toggle {
 		border-radius: 50%;
@@ -34,10 +34,15 @@
 		margin: 8px 0px;
 		padding: 1em;
 	}
+	@media (max-width: 720px) {
+		.label-hint {
+			display: block;
+		}
+	}
 </style>
 
 <label class="label-hint">
-	<span class="title">
+	<span class="title" style="width:{title_width};">
 		{title}
 		<span class="toggle" on:click={() => showInfo = !showInfo}>
 			?
