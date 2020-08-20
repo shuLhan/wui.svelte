@@ -15,6 +15,11 @@
 </script>
 
 <style>
+	button.push-notif {
+		position: fixed;
+		bottom: 1em;
+		left: 1em;
+	}
 	div.test-label-input {
 		margin: 0 0 1em 0;
 	}
@@ -31,7 +36,7 @@
 <main>
 	<WuiNotif />
 
-	<button on:click={showNotification}>
+	<button class="push-notif" on:click={showNotification}>
 		Push notification
 	</button>
 
@@ -58,4 +63,10 @@
 			Output: {number}
 		</div>
 	</div>
+
+	{#each new Array(1000) as x, idx}
+	<div>
+		{idx}
+	</div>
+	{/each}
 </main>

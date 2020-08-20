@@ -9,11 +9,10 @@
 
 <style>
 	.wui-notif {
-		position: absolute;
+		position: fixed;
 		top: 5px;
 		left: calc((100% - 400px)/2);
 		width: 400px;
-		border: 1px solid red;
 	}
 	@media (max-width: 500px) {
 		.wui-notif {
