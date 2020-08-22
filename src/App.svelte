@@ -5,9 +5,13 @@
 	import { WuiNotif, WuiPushNotif } from './components/index';
 
 	let n = 0;
-	function showNotification() {
+	function showNotification(kind) {
 		n = n + 1
-		WuiPushNotif("test "+n);
+		if (kind === "error") {
+			WuiPushNotif.Error("test "+n);
+		} else {
+			WuiPushNotif.Info("test "+n);
+		}
 	}
 
 	let address = "";
@@ -20,6 +24,12 @@
 		bottom: 1em;
 		left: 1em;
 	}
+	button.push-notif.error {
+		position: fixed;
+		bottom: 1em;
+		left: 12em;
+	}
+
 	div.test-label-input {
 		margin: 0 0 1em 0;
 	}
@@ -36,9 +46,14 @@
 <main>
 	<WuiNotif />
 
-	<button class="push-notif" on:click={showNotification}>
-		Push notification
+	<button class="push-notif" on:click={()=>showNotification("")}>
+		Push info notification
 	</button>
+
+	<button class="push-notif error" on:click={()=>showNotification("error")}>
+		Push error notification
+	</button>
+
 
 	<div class="test-label-input">
 		<WuiLabelHint

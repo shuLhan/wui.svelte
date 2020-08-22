@@ -2,8 +2,20 @@
 	import { messages } from "./Notif.store.js"
 	import NotifItem from "./NotifItem.svelte"
 
-	export function WuiPushNotif(msg) {
-		messages.update(msgs => msgs = [...msgs, msg])
+	export const WuiPushNotif = {
+		Info: function(text) {
+			const msg = {
+				text: text,
+			}
+			messages.update(msgs => msgs = [...msgs, msg])
+		},
+		Error: function(text) {
+			const msg = {
+				text: text,
+				kind: "error",
+			}
+			messages.update(msgs => msgs = [...msgs, msg])
+		}
 	}
 </script>
 
@@ -24,6 +36,6 @@
 
 <div class="wui-notif">
 	{#each $messages as msg}
-	<NotifItem text={msg}/>
+	<NotifItem text={msg.text} kind="{msg.kind}"/>
 	{/each}
 </div>

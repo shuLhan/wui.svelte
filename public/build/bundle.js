@@ -1451,14 +1451,15 @@ var app = (function () {
 
     function add_css$3() {
     	var style = element("style");
-    	style.id = "svelte-1ncmgbl-style";
-    	style.textContent = ".wui-notif-item.svelte-1ncmgbl{background-color:white;border:1px solid black;box-shadow:3px 3px;padding:1em;margin-bottom:1em}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWZJdGVtLnN2ZWx0ZSIsInNvdXJjZXMiOlsiTm90aWZJdGVtLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBvbk1vdW50IH0gZnJvbSAnc3ZlbHRlJztcblx0aW1wb3J0IHsgZmFkZSB9IGZyb20gJ3N2ZWx0ZS90cmFuc2l0aW9uJztcblx0aW1wb3J0IHsgbWVzc2FnZXMgfSBmcm9tIFwiLi9Ob3RpZi5zdG9yZS5qc1wiXG5cblx0ZXhwb3J0IGxldCB0ZXh0ID0gXCJcIjtcblxuXHRvbk1vdW50KCgpID0+IHtcblx0XHRsZXQgdGltZXJJRCA9IHNldFRpbWVvdXQoKCk9PiB7XG5cdFx0XHRtZXNzYWdlcy51cGRhdGUobXNncyA9PiB7XG5cdFx0XHRcdG1zZ3Muc3BsaWNlKDAsIDEpO1xuXHRcdFx0XHRyZXR1cm4gbXNnc1xuXHRcdFx0fSlcblx0XHR9LCA1MDAwKVxuXHR9KVxuPC9zY3JpcHQ+XG5cbjxzdHlsZT5cblx0Lnd1aS1ub3RpZi1pdGVtIHtcblx0XHRiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZTtcblx0XHRib3JkZXI6IDFweCBzb2xpZCBibGFjaztcblx0XHRib3gtc2hhZG93OiAzcHggM3B4O1xuXHRcdHBhZGRpbmc6IDFlbTtcblx0XHRtYXJnaW4tYm90dG9tOiAxZW07XG5cdH1cbjwvc3R5bGU+XG5cbjxkaXYgdHJhbnNpdGlvbjpmYWRlIGNsYXNzPVwid3VpLW5vdGlmLWl0ZW1cIj5cblx0e3RleHR9XG48L2Rpdj5cbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFrQkMsZUFBZSxlQUFDLENBQUMsQUFDaEIsZ0JBQWdCLENBQUUsS0FBSyxDQUN2QixNQUFNLENBQUUsR0FBRyxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQ3ZCLFVBQVUsQ0FBRSxHQUFHLENBQUMsR0FBRyxDQUNuQixPQUFPLENBQUUsR0FBRyxDQUNaLGFBQWEsQ0FBRSxHQUFHLEFBQ25CLENBQUMifQ== */";
+    	style.id = "svelte-1n99njq-style";
+    	style.textContent = ".wui-notif-item.svelte-1n99njq{background-color:white;border:1px solid black;box-shadow:3px 3px;padding:1em;margin-bottom:1em;z-index:1000}.wui-notif-item.error.svelte-1n99njq{border:1px solid red;box-shadow:3px 3px red}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWZJdGVtLnN2ZWx0ZSIsInNvdXJjZXMiOlsiTm90aWZJdGVtLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBvbk1vdW50IH0gZnJvbSAnc3ZlbHRlJ1xuXHRpbXBvcnQgeyBmYWRlIH0gZnJvbSAnc3ZlbHRlL3RyYW5zaXRpb24nXG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXG5cdGV4cG9ydCBsZXQgdGV4dCA9IFwiXCJcblx0ZXhwb3J0IGxldCBraW5kID0gXCJcIlxuXG5cdG9uTW91bnQoKCkgPT4ge1xuXHRcdGxldCB0aW1lcklEID0gc2V0VGltZW91dCgoKT0+IHtcblx0XHRcdG1lc3NhZ2VzLnVwZGF0ZShtc2dzID0+IHtcblx0XHRcdFx0bXNncy5zcGxpY2UoMCwgMSk7XG5cdFx0XHRcdHJldHVybiBtc2dzXG5cdFx0XHR9KVxuXHRcdH0sIDUwMDApXG5cdH0pXG48L3NjcmlwdD5cblxuPHN0eWxlPlxuXHQud3VpLW5vdGlmLWl0ZW0ge1xuXHRcdGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrO1xuXHRcdGJveC1zaGFkb3c6IDNweCAzcHg7XG5cdFx0cGFkZGluZzogMWVtO1xuXHRcdG1hcmdpbi1ib3R0b206IDFlbTtcblx0XHR6LWluZGV4OiAxMDAwO1xuXHR9XG5cdC53dWktbm90aWYtaXRlbS5lcnJvciB7XG5cdFx0Ym9yZGVyOiAxcHggc29saWQgcmVkO1xuXHRcdGJveC1zaGFkb3c6IDNweCAzcHggcmVkO1xuXHR9XG48L3N0eWxlPlxuXG48ZGl2IHRyYW5zaXRpb246ZmFkZSBjbGFzcz1cInd1aS1ub3RpZi1pdGVtIHtraW5kfVwiPlxuXHR7dGV4dH1cbjwvZGl2PlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQW1CQyxlQUFlLGVBQUMsQ0FBQyxBQUNoQixnQkFBZ0IsQ0FBRSxLQUFLLENBQ3ZCLE1BQU0sQ0FBRSxHQUFHLENBQUMsS0FBSyxDQUFDLEtBQUssQ0FDdkIsVUFBVSxDQUFFLEdBQUcsQ0FBQyxHQUFHLENBQ25CLE9BQU8sQ0FBRSxHQUFHLENBQ1osYUFBYSxDQUFFLEdBQUcsQ0FDbEIsT0FBTyxDQUFFLElBQUksQUFDZCxDQUFDLEFBQ0QsZUFBZSxNQUFNLGVBQUMsQ0FBQyxBQUN0QixNQUFNLENBQUUsR0FBRyxDQUFDLEtBQUssQ0FBQyxHQUFHLENBQ3JCLFVBQVUsQ0FBRSxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsQUFDeEIsQ0FBQyJ9 */";
     	append_dev(document.head, style);
     }
 
     function create_fragment$3(ctx) {
     	let div;
     	let t;
+    	let div_class_value;
     	let div_transition;
     	let current;
 
@@ -1466,8 +1467,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			t = text(/*text*/ ctx[0]);
-    			attr_dev(div, "class", "wui-notif-item svelte-1ncmgbl");
-    			add_location(div, file$3, 27, 0, 463);
+    			attr_dev(div, "class", div_class_value = "wui-notif-item " + /*kind*/ ctx[1] + " svelte-1n99njq");
+    			add_location(div, file$3, 33, 0, 579);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1479,6 +1480,10 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			if (!current || dirty & /*text*/ 1) set_data_dev(t, /*text*/ ctx[0]);
+
+    			if (!current || dirty & /*kind*/ 2 && div_class_value !== (div_class_value = "wui-notif-item " + /*kind*/ ctx[1] + " svelte-1n99njq")) {
+    				attr_dev(div, "class", div_class_value);
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -1514,6 +1519,7 @@ var app = (function () {
 
     function instance$3($$self, $$props, $$invalidate) {
     	let { text = "" } = $$props;
+    	let { kind = "" } = $$props;
 
     	onMount(() => {
     		let timerID = setTimeout(
@@ -1527,7 +1533,7 @@ var app = (function () {
     		);
     	});
 
-    	const writable_props = ["text"];
+    	const writable_props = ["text", "kind"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<NotifItem> was created with unknown prop '${key}'`);
@@ -1538,26 +1544,28 @@ var app = (function () {
 
     	$$self.$set = $$props => {
     		if ("text" in $$props) $$invalidate(0, text = $$props.text);
+    		if ("kind" in $$props) $$invalidate(1, kind = $$props.kind);
     	};
 
-    	$$self.$capture_state = () => ({ onMount, fade, messages, text });
+    	$$self.$capture_state = () => ({ onMount, fade, messages, text, kind });
 
     	$$self.$inject_state = $$props => {
     		if ("text" in $$props) $$invalidate(0, text = $$props.text);
+    		if ("kind" in $$props) $$invalidate(1, kind = $$props.kind);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [text];
+    	return [text, kind];
     }
 
     class NotifItem extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		if (!document.getElementById("svelte-1ncmgbl-style")) add_css$3();
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { text: 0 });
+    		if (!document.getElementById("svelte-1n99njq-style")) add_css$3();
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { text: 0, kind: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1574,6 +1582,14 @@ var app = (function () {
     	set text(value) {
     		throw new Error("<NotifItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
+
+    	get kind() {
+    		throw new Error("<NotifItem>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set kind(value) {
+    		throw new Error("<NotifItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
     }
 
     /* src/components/Notif.svelte generated by Svelte v3.24.0 */
@@ -1582,7 +1598,7 @@ var app = (function () {
     function add_css$4() {
     	var style = element("style");
     	style.id = "svelte-xdooa2-style";
-    	style.textContent = ".wui-notif.svelte-xdooa2{position:fixed;top:5px;left:calc((100% - 400px)/2);width:400px}@media(max-width: 500px){.wui-notif.svelte-xdooa2{left:1em;width:calc(100% - 2em)}}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWYuc3ZlbHRlIiwic291cmNlcyI6WyJOb3RpZi5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdCBjb250ZXh0PVwibW9kdWxlXCI+XG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXHRpbXBvcnQgTm90aWZJdGVtIGZyb20gXCIuL05vdGlmSXRlbS5zdmVsdGVcIlxuXG5cdGV4cG9ydCBmdW5jdGlvbiBXdWlQdXNoTm90aWYobXNnKSB7XG5cdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHR9XG48L3NjcmlwdD5cblxuPHN0eWxlPlxuXHQud3VpLW5vdGlmIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0dG9wOiA1cHg7XG5cdFx0bGVmdDogY2FsYygoMTAwJSAtIDQwMHB4KS8yKTtcblx0XHR3aWR0aDogNDAwcHg7XG5cdH1cblx0QG1lZGlhIChtYXgtd2lkdGg6IDUwMHB4KSB7XG5cdFx0Lnd1aS1ub3RpZiB7XG5cdFx0XHRsZWZ0OiAxZW07XG5cdFx0XHR3aWR0aDogY2FsYygxMDAlIC0gMmVtKTtcblx0XHR9XG5cdH1cbjwvc3R5bGU+XG5cbjxkaXYgY2xhc3M9XCJ3dWktbm90aWZcIj5cblx0eyNlYWNoICRtZXNzYWdlcyBhcyBtc2d9XG5cdDxOb3RpZkl0ZW0gdGV4dD17bXNnfS8+XG5cdHsvZWFjaH1cbjwvZGl2PlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQVVDLFVBQVUsY0FBQyxDQUFDLEFBQ1gsUUFBUSxDQUFFLEtBQUssQ0FDZixHQUFHLENBQUUsR0FBRyxDQUNSLElBQUksQ0FBRSxLQUFLLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FDNUIsS0FBSyxDQUFFLEtBQUssQUFDYixDQUFDLEFBQ0QsTUFBTSxBQUFDLFlBQVksS0FBSyxDQUFDLEFBQUMsQ0FBQyxBQUMxQixVQUFVLGNBQUMsQ0FBQyxBQUNYLElBQUksQ0FBRSxHQUFHLENBQ1QsS0FBSyxDQUFFLEtBQUssSUFBSSxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQUFDeEIsQ0FBQyxBQUNGLENBQUMifQ== */";
+    	style.textContent = ".wui-notif.svelte-xdooa2{position:fixed;top:5px;left:calc((100% - 400px)/2);width:400px}@media(max-width: 500px){.wui-notif.svelte-xdooa2{left:1em;width:calc(100% - 2em)}}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWYuc3ZlbHRlIiwic291cmNlcyI6WyJOb3RpZi5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdCBjb250ZXh0PVwibW9kdWxlXCI+XG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXHRpbXBvcnQgTm90aWZJdGVtIGZyb20gXCIuL05vdGlmSXRlbS5zdmVsdGVcIlxuXG5cdGV4cG9ydCBjb25zdCBXdWlQdXNoTm90aWYgPSB7XG5cdFx0SW5mbzogZnVuY3Rpb24odGV4dCkge1xuXHRcdFx0Y29uc3QgbXNnID0ge1xuXHRcdFx0XHR0ZXh0OiB0ZXh0LFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH0sXG5cdFx0RXJyb3I6IGZ1bmN0aW9uKHRleHQpIHtcblx0XHRcdGNvbnN0IG1zZyA9IHtcblx0XHRcdFx0dGV4dDogdGV4dCxcblx0XHRcdFx0a2luZDogXCJlcnJvclwiLFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH1cblx0fVxuPC9zY3JpcHQ+XG5cbjxzdHlsZT5cblx0Lnd1aS1ub3RpZiB7XG5cdFx0cG9zaXRpb246IGZpeGVkO1xuXHRcdHRvcDogNXB4O1xuXHRcdGxlZnQ6IGNhbGMoKDEwMCUgLSA0MDBweCkvMik7XG5cdFx0d2lkdGg6IDQwMHB4O1xuXHR9XG5cdEBtZWRpYSAobWF4LXdpZHRoOiA1MDBweCkge1xuXHRcdC53dWktbm90aWYge1xuXHRcdFx0bGVmdDogMWVtO1xuXHRcdFx0d2lkdGg6IGNhbGMoMTAwJSAtIDJlbSk7XG5cdFx0fVxuXHR9XG48L3N0eWxlPlxuXG48ZGl2IGNsYXNzPVwid3VpLW5vdGlmXCI+XG5cdHsjZWFjaCAkbWVzc2FnZXMgYXMgbXNnfVxuXHQ8Tm90aWZJdGVtIHRleHQ9e21zZy50ZXh0fSBraW5kPVwie21zZy5raW5kfVwiLz5cblx0ey9lYWNofVxuPC9kaXY+XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBc0JDLFVBQVUsY0FBQyxDQUFDLEFBQ1gsUUFBUSxDQUFFLEtBQUssQ0FDZixHQUFHLENBQUUsR0FBRyxDQUNSLElBQUksQ0FBRSxLQUFLLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FDNUIsS0FBSyxDQUFFLEtBQUssQUFDYixDQUFDLEFBQ0QsTUFBTSxBQUFDLFlBQVksS0FBSyxDQUFDLEFBQUMsQ0FBQyxBQUMxQixVQUFVLGNBQUMsQ0FBQyxBQUNYLElBQUksQ0FBRSxHQUFHLENBQ1QsS0FBSyxDQUFFLEtBQUssSUFBSSxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQUFDeEIsQ0FBQyxBQUNGLENBQUMifQ== */";
     	append_dev(document.head, style);
     }
 
@@ -1592,13 +1608,16 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (26:1) {#each $messages as msg}
+    // (38:1) {#each $messages as msg}
     function create_each_block(ctx) {
     	let notifitem;
     	let current;
 
     	notifitem = new NotifItem({
-    			props: { text: /*msg*/ ctx[1] },
+    			props: {
+    				text: /*msg*/ ctx[1].text,
+    				kind: /*msg*/ ctx[1].kind
+    			},
     			$$inline: true
     		});
 
@@ -1612,7 +1631,8 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const notifitem_changes = {};
-    			if (dirty & /*$messages*/ 1) notifitem_changes.text = /*msg*/ ctx[1];
+    			if (dirty & /*$messages*/ 1) notifitem_changes.text = /*msg*/ ctx[1].text;
+    			if (dirty & /*$messages*/ 1) notifitem_changes.kind = /*msg*/ ctx[1].kind;
     			notifitem.$set(notifitem_changes);
     		},
     		i: function intro(local) {
@@ -1633,7 +1653,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(26:1) {#each $messages as msg}",
+    		source: "(38:1) {#each $messages as msg}",
     		ctx
     	});
 
@@ -1664,7 +1684,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wui-notif svelte-xdooa2");
-    			add_location(div, file$4, 24, 0, 423);
+    			add_location(div, file$4, 36, 0, 623);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1742,9 +1762,16 @@ var app = (function () {
     	return block;
     }
 
-    function WuiPushNotif(msg) {
-    	messages.update(msgs => msgs = [...msgs, msg]);
-    }
+    const WuiPushNotif = {
+    	Info(text) {
+    		const msg = { text };
+    		messages.update(msgs => msgs = [...msgs, msg]);
+    	},
+    	Error(text) {
+    		const msg = { text, kind: "error" };
+    		messages.update(msgs => msgs = [...msgs, msg]);
+    	}
+    };
 
     function instance$4($$self, $$props, $$invalidate) {
     	let $messages;
@@ -1789,26 +1816,26 @@ var app = (function () {
 
     function add_css$5() {
     	var style = element("style");
-    	style.id = "svelte-u5poc3-style";
-    	style.textContent = "button.push-notif.svelte-u5poc3{position:fixed;bottom:1em;left:1em}div.test-label-input.svelte-u5poc3{margin:0 0 1em 0}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwLnN2ZWx0ZSIsInNvdXJjZXMiOlsiQXBwLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBXdWlJbnB1dElQUG9ydCB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cdGltcG9ydCB7IFd1aUlucHV0TnVtYmVyIH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTGFiZWxIaW50IH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTm90aWYsIFd1aVB1c2hOb3RpZiB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cblx0bGV0IG4gPSAwO1xuXHRmdW5jdGlvbiBzaG93Tm90aWZpY2F0aW9uKCkge1xuXHRcdG4gPSBuICsgMVxuXHRcdFd1aVB1c2hOb3RpZihcInRlc3QgXCIrbik7XG5cdH1cblxuXHRsZXQgYWRkcmVzcyA9IFwiXCI7XG5cdGxldCBudW1iZXIgPSAwO1xuPC9zY3JpcHQ+XG5cbjxzdHlsZT5cblx0YnV0dG9uLnB1c2gtbm90aWYge1xuXHRcdHBvc2l0aW9uOiBmaXhlZDtcblx0XHRib3R0b206IDFlbTtcblx0XHRsZWZ0OiAxZW07XG5cdH1cblx0ZGl2LnRlc3QtbGFiZWwtaW5wdXQge1xuXHRcdG1hcmdpbjogMCAwIDFlbSAwO1xuXHR9XG5cdGxhYmVsLnRlc3QtaW5wdXQge1xuXHRcdHdpZHRoOiAxMDAlO1xuXHRcdGRpc3BsYXk6IGlubGluZS1mbGV4O1xuXHR9XG5cdGxhYmVsLnRlc3QtaW5wdXQgPiBzcGFuIHtcblx0XHRkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XG5cdFx0d2lkdGg6IDIwMHB4O1xuXHR9XG48L3N0eWxlPlxuXG48bWFpbj5cblx0PFd1aU5vdGlmIC8+XG5cblx0PGJ1dHRvbiBjbGFzcz1cInB1c2gtbm90aWZcIiBvbjpjbGljaz17c2hvd05vdGlmaWNhdGlvbn0+XG5cdFx0UHVzaCBub3RpZmljYXRpb25cblx0PC9idXR0b24+XG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0SVBQb3J0XCJcblx0XHRcdGluZm89XCJJbnB1dCBJUCBhZGRyZXNzIGFuZCBwb3J0IG51bWJlclwiXG5cdFx0PlxuXHRcdFx0PFd1aUlucHV0SVBQb3J0IGJpbmQ6dmFsdWU9e2FkZHJlc3N9Lz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7YWRkcmVzc31cblx0XHQ8L2Rpdj5cblx0PC9kaXY+XG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0TnVtYmVyXCJcblx0XHRcdGluZm89XCJJbnB1dCBudW1iZXIgd2l0aCBtaW5pbXVtIHZhbHVlIGlzIDEgYW5kIG1heGltdW0gaXMgMTBcIlxuXHRcdD5cblx0XHRcdDxXdWlJbnB1dE51bWJlciBtYXg9MTAgbWluPTEgYmluZDp2YWx1ZT17bnVtYmVyfSB1bml0PVwic2Vjb25kc1wiLz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7bnVtYmVyfVxuXHRcdDwvZGl2PlxuXHQ8L2Rpdj5cblxuXHR7I2VhY2ggbmV3IEFycmF5KDEwMDApIGFzIHgsIGlkeH1cblx0PGRpdj5cblx0XHR7aWR4fVxuXHQ8L2Rpdj5cblx0ey9lYWNofVxuPC9tYWluPlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQWlCQyxNQUFNLFdBQVcsY0FBQyxDQUFDLEFBQ2xCLFFBQVEsQ0FBRSxLQUFLLENBQ2YsTUFBTSxDQUFFLEdBQUcsQ0FDWCxJQUFJLENBQUUsR0FBRyxBQUNWLENBQUMsQUFDRCxHQUFHLGlCQUFpQixjQUFDLENBQUMsQUFDckIsTUFBTSxDQUFFLENBQUMsQ0FBQyxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsQUFDbEIsQ0FBQyJ9 */";
+    	style.id = "svelte-qjrqwg-style";
+    	style.textContent = "button.push-notif.svelte-qjrqwg{position:fixed;bottom:1em;left:1em}button.push-notif.error.svelte-qjrqwg{position:fixed;bottom:1em;left:12em}div.test-label-input.svelte-qjrqwg{margin:0 0 1em 0}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwLnN2ZWx0ZSIsInNvdXJjZXMiOlsiQXBwLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBXdWlJbnB1dElQUG9ydCB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cdGltcG9ydCB7IFd1aUlucHV0TnVtYmVyIH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTGFiZWxIaW50IH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTm90aWYsIFd1aVB1c2hOb3RpZiB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cblx0bGV0IG4gPSAwO1xuXHRmdW5jdGlvbiBzaG93Tm90aWZpY2F0aW9uKGtpbmQpIHtcblx0XHRuID0gbiArIDFcblx0XHRpZiAoa2luZCA9PT0gXCJlcnJvclwiKSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuRXJyb3IoXCJ0ZXN0IFwiK24pO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuSW5mbyhcInRlc3QgXCIrbik7XG5cdFx0fVxuXHR9XG5cblx0bGV0IGFkZHJlc3MgPSBcIlwiO1xuXHRsZXQgbnVtYmVyID0gMDtcbjwvc2NyaXB0PlxuXG48c3R5bGU+XG5cdGJ1dHRvbi5wdXNoLW5vdGlmIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMWVtO1xuXHR9XG5cdGJ1dHRvbi5wdXNoLW5vdGlmLmVycm9yIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMTJlbTtcblx0fVxuXG5cdGRpdi50ZXN0LWxhYmVsLWlucHV0IHtcblx0XHRtYXJnaW46IDAgMCAxZW0gMDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0IHtcblx0XHR3aWR0aDogMTAwJTtcblx0XHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0ID4gc3BhbiB7XG5cdFx0ZGlzcGxheTogaW5saW5lLWJsb2NrO1xuXHRcdHdpZHRoOiAyMDBweDtcblx0fVxuPC9zdHlsZT5cblxuPG1haW4+XG5cdDxXdWlOb3RpZiAvPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiXCIpfT5cblx0XHRQdXNoIGluZm8gbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmIGVycm9yXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiZXJyb3JcIil9PlxuXHRcdFB1c2ggZXJyb3Igbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0SVBQb3J0XCJcblx0XHRcdGluZm89XCJJbnB1dCBJUCBhZGRyZXNzIGFuZCBwb3J0IG51bWJlclwiXG5cdFx0PlxuXHRcdFx0PFd1aUlucHV0SVBQb3J0IGJpbmQ6dmFsdWU9e2FkZHJlc3N9Lz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7YWRkcmVzc31cblx0XHQ8L2Rpdj5cblx0PC9kaXY+XG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0TnVtYmVyXCJcblx0XHRcdGluZm89XCJJbnB1dCBudW1iZXIgd2l0aCBtaW5pbXVtIHZhbHVlIGlzIDEgYW5kIG1heGltdW0gaXMgMTBcIlxuXHRcdD5cblx0XHRcdDxXdWlJbnB1dE51bWJlciBtYXg9MTAgbWluPTEgYmluZDp2YWx1ZT17bnVtYmVyfSB1bml0PVwic2Vjb25kc1wiLz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7bnVtYmVyfVxuXHRcdDwvZGl2PlxuXHQ8L2Rpdj5cblxuXHR7I2VhY2ggbmV3IEFycmF5KDEwMDApIGFzIHgsIGlkeH1cblx0PGRpdj5cblx0XHR7aWR4fVxuXHQ8L2Rpdj5cblx0ey9lYWNofVxuPC9tYWluPlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXFCQyxNQUFNLFdBQVcsY0FBQyxDQUFDLEFBQ2xCLFFBQVEsQ0FBRSxLQUFLLENBQ2YsTUFBTSxDQUFFLEdBQUcsQ0FDWCxJQUFJLENBQUUsR0FBRyxBQUNWLENBQUMsQUFDRCxNQUFNLFdBQVcsTUFBTSxjQUFDLENBQUMsQUFDeEIsUUFBUSxDQUFFLEtBQUssQ0FDZixNQUFNLENBQUUsR0FBRyxDQUNYLElBQUksQ0FBRSxJQUFJLEFBQ1gsQ0FBQyxBQUVELEdBQUcsaUJBQWlCLGNBQUMsQ0FBQyxBQUNyQixNQUFNLENBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxBQUNsQixDQUFDIn0= */";
     	append_dev(document.head, style);
     }
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[6] = list[i];
-    	child_ctx[8] = i;
+    	child_ctx[8] = list[i];
+    	child_ctx[10] = i;
     	return child_ctx;
     }
 
-    // (44:2) <WuiLabelHint    title="InputIPPort"    info="Input IP address and port number"   >
+    // (59:2) <WuiLabelHint    title="InputIPPort"    info="Input IP address and port number"   >
     function create_default_slot_1(ctx) {
     	let wuiinputipport;
     	let updating_value;
     	let current;
 
     	function wuiinputipport_value_binding(value) {
-    		/*wuiinputipport_value_binding*/ ctx[3].call(null, value);
+    		/*wuiinputipport_value_binding*/ ctx[5].call(null, value);
     	}
 
     	let wuiinputipport_props = {};
@@ -1861,21 +1888,21 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(44:2) <WuiLabelHint    title=\\\"InputIPPort\\\"    info=\\\"Input IP address and port number\\\"   >",
+    		source: "(59:2) <WuiLabelHint    title=\\\"InputIPPort\\\"    info=\\\"Input IP address and port number\\\"   >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (56:2) <WuiLabelHint    title="InputNumber"    info="Input number with minimum value is 1 and maximum is 10"   >
+    // (71:2) <WuiLabelHint    title="InputNumber"    info="Input number with minimum value is 1 and maximum is 10"   >
     function create_default_slot(ctx) {
     	let wuiinputnumber;
     	let updating_value;
     	let current;
 
     	function wuiinputnumber_value_binding(value) {
-    		/*wuiinputnumber_value_binding*/ ctx[4].call(null, value);
+    		/*wuiinputnumber_value_binding*/ ctx[6].call(null, value);
     	}
 
     	let wuiinputnumber_props = { max: "10", min: "1", unit: "seconds" };
@@ -1928,14 +1955,14 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(56:2) <WuiLabelHint    title=\\\"InputNumber\\\"    info=\\\"Input number with minimum value is 1 and maximum is 10\\\"   >",
+    		source: "(71:2) <WuiLabelHint    title=\\\"InputNumber\\\"    info=\\\"Input number with minimum value is 1 and maximum is 10\\\"   >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:1) {#each new Array(1000) as x, idx}
+    // (82:1) {#each new Array(1000) as x, idx}
     function create_each_block$1(ctx) {
     	let div;
     	let t0;
@@ -1944,9 +1971,9 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t0 = text(/*idx*/ ctx[8]);
+    			t0 = text(/*idx*/ ctx[10]);
     			t1 = space();
-    			add_location(div, file$5, 67, 1, 1280);
+    			add_location(div, file$5, 82, 1, 1572);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -1963,7 +1990,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(67:1) {#each new Array(1000) as x, idx}",
+    		source: "(82:1) {#each new Array(1000) as x, idx}",
     		ctx
     	});
 
@@ -1974,22 +2001,24 @@ var app = (function () {
     	let main;
     	let wuinotif;
     	let t0;
-    	let button;
+    	let button0;
     	let t2;
+    	let button1;
+    	let t4;
     	let div1;
     	let wuilabelhint0;
-    	let t3;
-    	let div0;
-    	let t4;
     	let t5;
+    	let div0;
     	let t6;
+    	let t7;
+    	let t8;
     	let div3;
     	let wuilabelhint1;
-    	let t7;
-    	let div2;
-    	let t8;
     	let t9;
+    	let div2;
     	let t10;
+    	let t11;
+    	let t12;
     	let current;
     	let mounted;
     	let dispose;
@@ -2028,37 +2057,42 @@ var app = (function () {
     			main = element("main");
     			create_component(wuinotif.$$.fragment);
     			t0 = space();
-    			button = element("button");
-    			button.textContent = "Push notification";
+    			button0 = element("button");
+    			button0.textContent = "Push info notification";
     			t2 = space();
+    			button1 = element("button");
+    			button1.textContent = "Push error notification";
+    			t4 = space();
     			div1 = element("div");
     			create_component(wuilabelhint0.$$.fragment);
-    			t3 = space();
+    			t5 = space();
     			div0 = element("div");
-    			t4 = text("Output: ");
-    			t5 = text(/*address*/ ctx[0]);
-    			t6 = space();
+    			t6 = text("Output: ");
+    			t7 = text(/*address*/ ctx[0]);
+    			t8 = space();
     			div3 = element("div");
     			create_component(wuilabelhint1.$$.fragment);
-    			t7 = space();
+    			t9 = space();
     			div2 = element("div");
-    			t8 = text("Output: ");
-    			t9 = text(/*number*/ ctx[1]);
-    			t10 = space();
+    			t10 = text("Output: ");
+    			t11 = text(/*number*/ ctx[1]);
+    			t12 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(button, "class", "push-notif svelte-u5poc3");
-    			add_location(button, file$5, 38, 1, 658);
-    			add_location(div0, file$5, 49, 2, 926);
-    			attr_dev(div1, "class", "test-label-input svelte-u5poc3");
-    			add_location(div1, file$5, 42, 1, 747);
-    			add_location(div2, file$5, 61, 2, 1200);
-    			attr_dev(div3, "class", "test-label-input svelte-u5poc3");
-    			add_location(div3, file$5, 54, 1, 972);
-    			add_location(main, file$5, 35, 0, 635);
+    			attr_dev(button0, "class", "push-notif svelte-qjrqwg");
+    			add_location(button0, file$5, 48, 1, 822);
+    			attr_dev(button1, "class", "push-notif error svelte-qjrqwg");
+    			add_location(button1, file$5, 52, 1, 924);
+    			add_location(div0, file$5, 64, 2, 1218);
+    			attr_dev(div1, "class", "test-label-input svelte-qjrqwg");
+    			add_location(div1, file$5, 57, 1, 1039);
+    			add_location(div2, file$5, 76, 2, 1492);
+    			attr_dev(div3, "class", "test-label-input svelte-qjrqwg");
+    			add_location(div3, file$5, 69, 1, 1264);
+    			add_location(main, file$5, 45, 0, 799);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2067,22 +2101,24 @@ var app = (function () {
     			insert_dev(target, main, anchor);
     			mount_component(wuinotif, main, null);
     			append_dev(main, t0);
-    			append_dev(main, button);
+    			append_dev(main, button0);
     			append_dev(main, t2);
+    			append_dev(main, button1);
+    			append_dev(main, t4);
     			append_dev(main, div1);
     			mount_component(wuilabelhint0, div1, null);
-    			append_dev(div1, t3);
+    			append_dev(div1, t5);
     			append_dev(div1, div0);
-    			append_dev(div0, t4);
-    			append_dev(div0, t5);
-    			append_dev(main, t6);
+    			append_dev(div0, t6);
+    			append_dev(div0, t7);
+    			append_dev(main, t8);
     			append_dev(main, div3);
     			mount_component(wuilabelhint1, div3, null);
-    			append_dev(div3, t7);
+    			append_dev(div3, t9);
     			append_dev(div3, div2);
-    			append_dev(div2, t8);
-    			append_dev(div2, t9);
-    			append_dev(main, t10);
+    			append_dev(div2, t10);
+    			append_dev(div2, t11);
+    			append_dev(main, t12);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(main, null);
@@ -2091,27 +2127,31 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*showNotification*/ ctx[2], false, false, false);
+    				dispose = [
+    					listen_dev(button0, "click", /*click_handler*/ ctx[3], false, false, false),
+    					listen_dev(button1, "click", /*click_handler_1*/ ctx[4], false, false, false)
+    				];
+
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
     			const wuilabelhint0_changes = {};
 
-    			if (dirty & /*$$scope, address*/ 513) {
+    			if (dirty & /*$$scope, address*/ 2049) {
     				wuilabelhint0_changes.$$scope = { dirty, ctx };
     			}
 
     			wuilabelhint0.$set(wuilabelhint0_changes);
-    			if (!current || dirty & /*address*/ 1) set_data_dev(t5, /*address*/ ctx[0]);
+    			if (!current || dirty & /*address*/ 1) set_data_dev(t7, /*address*/ ctx[0]);
     			const wuilabelhint1_changes = {};
 
-    			if (dirty & /*$$scope, number*/ 514) {
+    			if (dirty & /*$$scope, number*/ 2050) {
     				wuilabelhint1_changes.$$scope = { dirty, ctx };
     			}
 
     			wuilabelhint1.$set(wuilabelhint1_changes);
-    			if (!current || dirty & /*number*/ 2) set_data_dev(t9, /*number*/ ctx[1]);
+    			if (!current || dirty & /*number*/ 2) set_data_dev(t11, /*number*/ ctx[1]);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -2133,7 +2173,7 @@ var app = (function () {
     			destroy_component(wuilabelhint1);
     			destroy_each(each_blocks, detaching);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -2151,9 +2191,14 @@ var app = (function () {
     function instance$5($$self, $$props, $$invalidate) {
     	let n = 0;
 
-    	function showNotification() {
+    	function showNotification(kind) {
     		n = n + 1;
-    		WuiPushNotif("test " + n);
+
+    		if (kind === "error") {
+    			WuiPushNotif.Error("test " + n);
+    		} else {
+    			WuiPushNotif.Info("test " + n);
+    		}
     	}
 
     	let address = "";
@@ -2166,6 +2211,8 @@ var app = (function () {
 
     	let { $$slots = {}, $$scope } = $$props;
     	validate_slots("App", $$slots, []);
+    	const click_handler = () => showNotification("");
+    	const click_handler_1 = () => showNotification("error");
 
     	function wuiinputipport_value_binding(value) {
     		address = value;
@@ -2203,6 +2250,8 @@ var app = (function () {
     		address,
     		number,
     		showNotification,
+    		click_handler,
+    		click_handler_1,
     		wuiinputipport_value_binding,
     		wuiinputnumber_value_binding
     	];
@@ -2211,7 +2260,7 @@ var app = (function () {
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		if (!document.getElementById("svelte-u5poc3-style")) add_css$5();
+    		if (!document.getElementById("svelte-qjrqwg-style")) add_css$5();
     		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
 
     		dispatch_dev("SvelteRegisterComponent", {

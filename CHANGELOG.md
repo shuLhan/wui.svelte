@@ -1,4 +1,11 @@
-= wui.svelte v0.1.0
+=  wui.svelte v0.2.0
+
+==  Breaking changes
+
+* WuiNotifItem now has two functions to show normal and error notification.
+
+
+=  wui.svelte v0.1.0
 
 List of components in this release,
 
