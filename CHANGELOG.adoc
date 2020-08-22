@@ -4,6 +4,14 @@
 
 * WuiNotifItem now has two functions to show normal and error notification.
 
+==  Bug fixes
+
+* Notif: fix position to fixed
+
+==  Enhancement
+
+* LabelHint: add prop to change width of label
+
 
 =  wui.svelte v0.1.0
 
