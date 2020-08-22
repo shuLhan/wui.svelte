@@ -5,10 +5,15 @@ https://svelte.dev[Svelte].
 
 List of components,
 
-* WuiInputIPPort: an input component for "address:port" value.
-* WuiInputNumber: an input component for number, with options to set maximum
+* `WuiInputIPPort`: an input component for "address:port" value.
+
+* `WuiInputNumber`: an input component for number, with options to set maximum
   and minimum value, and a suffix.
-* WuiLabelHint: a label component with clickable hint that show input
+
+* `WuiLabelHint`: a label component with clickable hint that show input
   information.  This component can wrap other components.
-* WuiNotif: a component to show notification
-* WuiPushNotif: a function to push notification to be displayed by WuiNotif.
+
+* `WuiNotif`: a component to show notification
+
+* `WuiPushNotif`: a function to push notification to be displayed by
+  `WuiNotif`.
