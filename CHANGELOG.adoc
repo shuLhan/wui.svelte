@@ -1,6 +1,15 @@
+=  wui.svelte v0.2.2
+
+==  Enhancements
+
+* Add property to set the notification timeout.
+
+
 =  wui.svelte v0.2.1
 
-Fix notification item not removed after 5 seconds.
+==  Bug fix
+
+* Fix notification item not removed after x seconds.
 
 
 =  wui.svelte v0.2.0

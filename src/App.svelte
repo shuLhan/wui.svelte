@@ -44,7 +44,7 @@
 </style>
 
 <main>
-	<WuiNotif />
+	<WuiNotif timeout={1000} />
 
 	<button class="push-notif" on:click={()=>showNotification("")}>
 		Push info notification

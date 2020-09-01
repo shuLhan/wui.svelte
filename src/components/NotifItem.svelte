@@ -5,14 +5,16 @@
 
 	export let text = ""
 	export let kind = ""
+	export let timeout = 5000
 
 	onMount(() => {
 		let timerID = setTimeout(()=> {
 			messages.update(msgs => {
 				msgs.splice(0, 1);
 				msgs = msgs
+				return msgs
 			})
-		}, 5000)
+		}, timeout)
 	})
 </script>
 

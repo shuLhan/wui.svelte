@@ -472,6 +472,96 @@ var app = (function () {
             }
         };
     }
+    function outro_and_destroy_block(block, lookup) {
+        transition_out(block, 1, 1, () => {
+            lookup.delete(block.key);
+        });
+    }
+    function update_keyed_each(old_blocks, dirty, get_key, dynamic, ctx, list, lookup, node, destroy, create_each_block, next, get_context) {
+        let o = old_blocks.length;
+        let n = list.length;
+        let i = o;
+        const old_indexes = {};
+        while (i--)
+            old_indexes[old_blocks[i].key] = i;
+        const new_blocks = [];
+        const new_lookup = new Map();
+        const deltas = new Map();
+        i = n;
+        while (i--) {
+            const child_ctx = get_context(ctx, list, i);
+            const key = get_key(child_ctx);
+            let block = lookup.get(key);
+            if (!block) {
+                block = create_each_block(key, child_ctx);
+                block.c();
+            }
+            else if (dynamic) {
+                block.p(child_ctx, dirty);
+            }
+            new_lookup.set(key, new_blocks[i] = block);
+            if (key in old_indexes)
+                deltas.set(key, Math.abs(i - old_indexes[key]));
+        }
+        const will_move = new Set();
+        const did_move = new Set();
+        function insert(block) {
+            transition_in(block, 1);
+            block.m(node, next);
+            lookup.set(block.key, block);
+            next = block.first;
+            n--;
+        }
+        while (o && n) {
+            const new_block = new_blocks[n - 1];
+            const old_block = old_blocks[o - 1];
+            const new_key = new_block.key;
+            const old_key = old_block.key;
+            if (new_block === old_block) {
+                // do nothing
+                next = new_block.first;
+                o--;
+                n--;
+            }
+            else if (!new_lookup.has(old_key)) {
+                // remove old block
+                destroy(old_block, lookup);
+                o--;
+            }
+            else if (!lookup.has(new_key) || will_move.has(new_key)) {
+                insert(new_block);
+            }
+            else if (did_move.has(old_key)) {
+                o--;
+            }
+            else if (deltas.get(new_key) > deltas.get(old_key)) {
+                did_move.add(new_key);
+                insert(new_block);
+            }
+            else {
+                will_move.add(old_key);
+                o--;
+            }
+        }
+        while (o--) {
+            const old_block = old_blocks[o];
+            if (!new_lookup.has(old_block.key))
+                destroy(old_block, lookup);
+        }
+        while (n)
+            insert(new_blocks[n - 1]);
+        return new_blocks;
+    }
+    function validate_each_keys(ctx, list, get_context, get_key) {
+        const keys = new Set();
+        for (let i = 0; i < list.length; i++) {
+            const key = get_key(get_context(ctx, list, i));
+            if (keys.has(key)) {
+                throw new Error(`Cannot have duplicate keys in a keyed each`);
+            }
+            keys.add(key);
+        }
+    }
 
     function bind(component, name, callback) {
         const index = component.$$.props[name];
@@ -1452,7 +1542,7 @@ var app = (function () {
     function add_css$3() {
     	var style = element("style");
     	style.id = "svelte-1n99njq-style";
-    	style.textContent = ".wui-notif-item.svelte-1n99njq{background-color:white;border:1px solid black;box-shadow:3px 3px;padding:1em;margin-bottom:1em;z-index:1000}.wui-notif-item.error.svelte-1n99njq{border:1px solid red;box-shadow:3px 3px red}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWZJdGVtLnN2ZWx0ZSIsInNvdXJjZXMiOlsiTm90aWZJdGVtLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBvbk1vdW50IH0gZnJvbSAnc3ZlbHRlJ1xuXHRpbXBvcnQgeyBmYWRlIH0gZnJvbSAnc3ZlbHRlL3RyYW5zaXRpb24nXG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXG5cdGV4cG9ydCBsZXQgdGV4dCA9IFwiXCJcblx0ZXhwb3J0IGxldCBraW5kID0gXCJcIlxuXG5cdG9uTW91bnQoKCkgPT4ge1xuXHRcdGxldCB0aW1lcklEID0gc2V0VGltZW91dCgoKT0+IHtcblx0XHRcdG1lc3NhZ2VzLnVwZGF0ZShtc2dzID0+IHtcblx0XHRcdFx0bXNncy5zcGxpY2UoMCwgMSk7XG5cdFx0XHRcdHJldHVybiBtc2dzXG5cdFx0XHR9KVxuXHRcdH0sIDUwMDApXG5cdH0pXG48L3NjcmlwdD5cblxuPHN0eWxlPlxuXHQud3VpLW5vdGlmLWl0ZW0ge1xuXHRcdGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xuXHRcdGJvcmRlcjogMXB4IHNvbGlkIGJsYWNrO1xuXHRcdGJveC1zaGFkb3c6IDNweCAzcHg7XG5cdFx0cGFkZGluZzogMWVtO1xuXHRcdG1hcmdpbi1ib3R0b206IDFlbTtcblx0XHR6LWluZGV4OiAxMDAwO1xuXHR9XG5cdC53dWktbm90aWYtaXRlbS5lcnJvciB7XG5cdFx0Ym9yZGVyOiAxcHggc29saWQgcmVkO1xuXHRcdGJveC1zaGFkb3c6IDNweCAzcHggcmVkO1xuXHR9XG48L3N0eWxlPlxuXG48ZGl2IHRyYW5zaXRpb246ZmFkZSBjbGFzcz1cInd1aS1ub3RpZi1pdGVtIHtraW5kfVwiPlxuXHR7dGV4dH1cbjwvZGl2PlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQW1CQyxlQUFlLGVBQUMsQ0FBQyxBQUNoQixnQkFBZ0IsQ0FBRSxLQUFLLENBQ3ZCLE1BQU0sQ0FBRSxHQUFHLENBQUMsS0FBSyxDQUFDLEtBQUssQ0FDdkIsVUFBVSxDQUFFLEdBQUcsQ0FBQyxHQUFHLENBQ25CLE9BQU8sQ0FBRSxHQUFHLENBQ1osYUFBYSxDQUFFLEdBQUcsQ0FDbEIsT0FBTyxDQUFFLElBQUksQUFDZCxDQUFDLEFBQ0QsZUFBZSxNQUFNLGVBQUMsQ0FBQyxBQUN0QixNQUFNLENBQUUsR0FBRyxDQUFDLEtBQUssQ0FBQyxHQUFHLENBQ3JCLFVBQVUsQ0FBRSxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsQUFDeEIsQ0FBQyJ9 */";
+    	style.textContent = ".wui-notif-item.svelte-1n99njq{background-color:white;border:1px solid black;box-shadow:3px 3px;padding:1em;margin-bottom:1em;z-index:1000}.wui-notif-item.error.svelte-1n99njq{border:1px solid red;box-shadow:3px 3px red}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWZJdGVtLnN2ZWx0ZSIsInNvdXJjZXMiOlsiTm90aWZJdGVtLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBvbk1vdW50IH0gZnJvbSAnc3ZlbHRlJ1xuXHRpbXBvcnQgeyBmYWRlIH0gZnJvbSAnc3ZlbHRlL3RyYW5zaXRpb24nXG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXG5cdGV4cG9ydCBsZXQgdGV4dCA9IFwiXCJcblx0ZXhwb3J0IGxldCBraW5kID0gXCJcIlxuXHRleHBvcnQgbGV0IHRpbWVvdXQgPSA1MDAwXG5cblx0b25Nb3VudCgoKSA9PiB7XG5cdFx0bGV0IHRpbWVySUQgPSBzZXRUaW1lb3V0KCgpPT4ge1xuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4ge1xuXHRcdFx0XHRtc2dzLnNwbGljZSgwLCAxKTtcblx0XHRcdFx0bXNncyA9IG1zZ3Ncblx0XHRcdFx0cmV0dXJuIG1zZ3Ncblx0XHRcdH0pXG5cdFx0fSwgdGltZW91dClcblx0fSlcbjwvc2NyaXB0PlxuXG48c3R5bGU+XG5cdC53dWktbm90aWYtaXRlbSB7XG5cdFx0YmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XG5cdFx0Ym9yZGVyOiAxcHggc29saWQgYmxhY2s7XG5cdFx0Ym94LXNoYWRvdzogM3B4IDNweDtcblx0XHRwYWRkaW5nOiAxZW07XG5cdFx0bWFyZ2luLWJvdHRvbTogMWVtO1xuXHRcdHotaW5kZXg6IDEwMDA7XG5cdH1cblx0Lnd1aS1ub3RpZi1pdGVtLmVycm9yIHtcblx0XHRib3JkZXI6IDFweCBzb2xpZCByZWQ7XG5cdFx0Ym94LXNoYWRvdzogM3B4IDNweCByZWQ7XG5cdH1cbjwvc3R5bGU+XG5cbjxkaXYgdHJhbnNpdGlvbjpmYWRlIGNsYXNzPVwid3VpLW5vdGlmLWl0ZW0ge2tpbmR9XCI+XG5cdHt0ZXh0fVxuPC9kaXY+XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBcUJDLGVBQWUsZUFBQyxDQUFDLEFBQ2hCLGdCQUFnQixDQUFFLEtBQUssQ0FDdkIsTUFBTSxDQUFFLEdBQUcsQ0FBQyxLQUFLLENBQUMsS0FBSyxDQUN2QixVQUFVLENBQUUsR0FBRyxDQUFDLEdBQUcsQ0FDbkIsT0FBTyxDQUFFLEdBQUcsQ0FDWixhQUFhLENBQUUsR0FBRyxDQUNsQixPQUFPLENBQUUsSUFBSSxBQUNkLENBQUMsQUFDRCxlQUFlLE1BQU0sZUFBQyxDQUFDLEFBQ3RCLE1BQU0sQ0FBRSxHQUFHLENBQUMsS0FBSyxDQUFDLEdBQUcsQ0FDckIsVUFBVSxDQUFFLEdBQUcsQ0FBQyxHQUFHLENBQUMsR0FBRyxBQUN4QixDQUFDIn0= */";
     	append_dev(document.head, style);
     }
 
@@ -1468,7 +1558,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*text*/ ctx[0]);
     			attr_dev(div, "class", div_class_value = "wui-notif-item " + /*kind*/ ctx[1] + " svelte-1n99njq");
-    			add_location(div, file$3, 33, 0, 579);
+    			add_location(div, file$3, 35, 0, 625);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1520,20 +1610,22 @@ var app = (function () {
     function instance$3($$self, $$props, $$invalidate) {
     	let { text = "" } = $$props;
     	let { kind = "" } = $$props;
+    	let { timeout = 5000 } = $$props;
 
     	onMount(() => {
     		let timerID = setTimeout(
     			() => {
     				messages.update(msgs => {
     					msgs.splice(0, 1);
+    					msgs = msgs;
     					return msgs;
     				});
     			},
-    			5000
+    			timeout
     		);
     	});
 
-    	const writable_props = ["text", "kind"];
+    	const writable_props = ["text", "kind", "timeout"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<NotifItem> was created with unknown prop '${key}'`);
@@ -1545,27 +1637,36 @@ var app = (function () {
     	$$self.$set = $$props => {
     		if ("text" in $$props) $$invalidate(0, text = $$props.text);
     		if ("kind" in $$props) $$invalidate(1, kind = $$props.kind);
+    		if ("timeout" in $$props) $$invalidate(2, timeout = $$props.timeout);
     	};
 
-    	$$self.$capture_state = () => ({ onMount, fade, messages, text, kind });
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		fade,
+    		messages,
+    		text,
+    		kind,
+    		timeout
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ("text" in $$props) $$invalidate(0, text = $$props.text);
     		if ("kind" in $$props) $$invalidate(1, kind = $$props.kind);
+    		if ("timeout" in $$props) $$invalidate(2, timeout = $$props.timeout);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [text, kind];
+    	return [text, kind, timeout];
     }
 
     class NotifItem extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
     		if (!document.getElementById("svelte-1n99njq-style")) add_css$3();
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { text: 0, kind: 1 });
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { text: 0, kind: 1, timeout: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1590,6 +1691,14 @@ var app = (function () {
     	set kind(value) {
     		throw new Error("<NotifItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
+
+    	get timeout() {
+    		throw new Error("<NotifItem>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set timeout(value) {
+    		throw new Error("<NotifItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
     }
 
     /* src/components/Notif.svelte generated by Svelte v3.24.0 */
@@ -1598,41 +1707,49 @@ var app = (function () {
     function add_css$4() {
     	var style = element("style");
     	style.id = "svelte-xdooa2-style";
-    	style.textContent = ".wui-notif.svelte-xdooa2{position:fixed;top:5px;left:calc((100% - 400px)/2);width:400px}@media(max-width: 500px){.wui-notif.svelte-xdooa2{left:1em;width:calc(100% - 2em)}}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWYuc3ZlbHRlIiwic291cmNlcyI6WyJOb3RpZi5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdCBjb250ZXh0PVwibW9kdWxlXCI+XG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXHRpbXBvcnQgTm90aWZJdGVtIGZyb20gXCIuL05vdGlmSXRlbS5zdmVsdGVcIlxuXG5cdGV4cG9ydCBjb25zdCBXdWlQdXNoTm90aWYgPSB7XG5cdFx0SW5mbzogZnVuY3Rpb24odGV4dCkge1xuXHRcdFx0Y29uc3QgbXNnID0ge1xuXHRcdFx0XHR0ZXh0OiB0ZXh0LFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH0sXG5cdFx0RXJyb3I6IGZ1bmN0aW9uKHRleHQpIHtcblx0XHRcdGNvbnN0IG1zZyA9IHtcblx0XHRcdFx0dGV4dDogdGV4dCxcblx0XHRcdFx0a2luZDogXCJlcnJvclwiLFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH1cblx0fVxuPC9zY3JpcHQ+XG5cbjxzdHlsZT5cblx0Lnd1aS1ub3RpZiB7XG5cdFx0cG9zaXRpb246IGZpeGVkO1xuXHRcdHRvcDogNXB4O1xuXHRcdGxlZnQ6IGNhbGMoKDEwMCUgLSA0MDBweCkvMik7XG5cdFx0d2lkdGg6IDQwMHB4O1xuXHR9XG5cdEBtZWRpYSAobWF4LXdpZHRoOiA1MDBweCkge1xuXHRcdC53dWktbm90aWYge1xuXHRcdFx0bGVmdDogMWVtO1xuXHRcdFx0d2lkdGg6IGNhbGMoMTAwJSAtIDJlbSk7XG5cdFx0fVxuXHR9XG48L3N0eWxlPlxuXG48ZGl2IGNsYXNzPVwid3VpLW5vdGlmXCI+XG5cdHsjZWFjaCAkbWVzc2FnZXMgYXMgbXNnfVxuXHQ8Tm90aWZJdGVtIHRleHQ9e21zZy50ZXh0fSBraW5kPVwie21zZy5raW5kfVwiLz5cblx0ey9lYWNofVxuPC9kaXY+XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBc0JDLFVBQVUsY0FBQyxDQUFDLEFBQ1gsUUFBUSxDQUFFLEtBQUssQ0FDZixHQUFHLENBQUUsR0FBRyxDQUNSLElBQUksQ0FBRSxLQUFLLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FDNUIsS0FBSyxDQUFFLEtBQUssQUFDYixDQUFDLEFBQ0QsTUFBTSxBQUFDLFlBQVksS0FBSyxDQUFDLEFBQUMsQ0FBQyxBQUMxQixVQUFVLGNBQUMsQ0FBQyxBQUNYLElBQUksQ0FBRSxHQUFHLENBQ1QsS0FBSyxDQUFFLEtBQUssSUFBSSxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQUFDeEIsQ0FBQyxBQUNGLENBQUMifQ== */";
+    	style.textContent = ".wui-notif.svelte-xdooa2{position:fixed;top:5px;left:calc((100% - 400px)/2);width:400px}@media(max-width: 500px){.wui-notif.svelte-xdooa2{left:1em;width:calc(100% - 2em)}}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTm90aWYuc3ZlbHRlIiwic291cmNlcyI6WyJOb3RpZi5zdmVsdGUiXSwic291cmNlc0NvbnRlbnQiOlsiPHNjcmlwdCBjb250ZXh0PVwibW9kdWxlXCI+XG5cdGltcG9ydCB7IG1lc3NhZ2VzIH0gZnJvbSBcIi4vTm90aWYuc3RvcmUuanNcIlxuXHRpbXBvcnQgTm90aWZJdGVtIGZyb20gXCIuL05vdGlmSXRlbS5zdmVsdGVcIlxuXG5cdGV4cG9ydCBjb25zdCBXdWlQdXNoTm90aWYgPSB7XG5cdFx0SW5mbzogZnVuY3Rpb24odGV4dCkge1xuXHRcdFx0Y29uc3QgbXNnID0ge1xuXHRcdFx0XHR0ZXh0OiB0ZXh0LFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH0sXG5cdFx0RXJyb3I6IGZ1bmN0aW9uKHRleHQpIHtcblx0XHRcdGNvbnN0IG1zZyA9IHtcblx0XHRcdFx0dGV4dDogdGV4dCxcblx0XHRcdFx0a2luZDogXCJlcnJvclwiLFxuXHRcdFx0fVxuXHRcdFx0bWVzc2FnZXMudXBkYXRlKG1zZ3MgPT4gbXNncyA9IFsuLi5tc2dzLCBtc2ddKVxuXHRcdH1cblx0fVxuPC9zY3JpcHQ+XG48c2NyaXB0PlxuXHRleHBvcnQgbGV0IHRpbWVvdXQgPSA1MDAwO1xuPC9zY3JpcHQ+XG5cbjxzdHlsZT5cblx0Lnd1aS1ub3RpZiB7XG5cdFx0cG9zaXRpb246IGZpeGVkO1xuXHRcdHRvcDogNXB4O1xuXHRcdGxlZnQ6IGNhbGMoKDEwMCUgLSA0MDBweCkvMik7XG5cdFx0d2lkdGg6IDQwMHB4O1xuXHR9XG5cdEBtZWRpYSAobWF4LXdpZHRoOiA1MDBweCkge1xuXHRcdC53dWktbm90aWYge1xuXHRcdFx0bGVmdDogMWVtO1xuXHRcdFx0d2lkdGg6IGNhbGMoMTAwJSAtIDJlbSk7XG5cdFx0fVxuXHR9XG48L3N0eWxlPlxuXG48ZGl2IGNsYXNzPVwid3VpLW5vdGlmXCI+XG5cdHsjZWFjaCAkbWVzc2FnZXMgYXMgbXNnIChtc2cpfVxuXHQ8Tm90aWZJdGVtIHRleHQ9e21zZy50ZXh0fSBraW5kPVwie21zZy5raW5kfVwiIHt0aW1lb3V0fS8+XG5cdHsvZWFjaH1cbjwvZGl2PlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXlCQyxVQUFVLGNBQUMsQ0FBQyxBQUNYLFFBQVEsQ0FBRSxLQUFLLENBQ2YsR0FBRyxDQUFFLEdBQUcsQ0FDUixJQUFJLENBQUUsS0FBSyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQzVCLEtBQUssQ0FBRSxLQUFLLEFBQ2IsQ0FBQyxBQUNELE1BQU0sQUFBQyxZQUFZLEtBQUssQ0FBQyxBQUFDLENBQUMsQUFDMUIsVUFBVSxjQUFDLENBQUMsQUFDWCxJQUFJLENBQUUsR0FBRyxDQUNULEtBQUssQ0FBRSxLQUFLLElBQUksQ0FBQyxDQUFDLENBQUMsR0FBRyxDQUFDLEFBQ3hCLENBQUMsQUFDRixDQUFDIn0= */";
     	append_dev(document.head, style);
     }
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[1] = list[i];
+    	child_ctx[2] = list[i];
     	return child_ctx;
     }
 
-    // (38:1) {#each $messages as msg}
-    function create_each_block(ctx) {
+    // (41:1) {#each $messages as msg (msg)}
+    function create_each_block(key_1, ctx) {
+    	let first;
     	let notifitem;
     	let current;
 
     	notifitem = new NotifItem({
     			props: {
-    				text: /*msg*/ ctx[1].text,
-    				kind: /*msg*/ ctx[1].kind
+    				text: /*msg*/ ctx[2].text,
+    				kind: /*msg*/ ctx[2].kind,
+    				timeout: /*timeout*/ ctx[0]
     			},
     			$$inline: true
     		});
 
     	const block = {
+    		key: key_1,
+    		first: null,
     		c: function create() {
+    			first = empty();
     			create_component(notifitem.$$.fragment);
+    			this.first = first;
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, first, anchor);
     			mount_component(notifitem, target, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
     			const notifitem_changes = {};
-    			if (dirty & /*$messages*/ 1) notifitem_changes.text = /*msg*/ ctx[1].text;
-    			if (dirty & /*$messages*/ 1) notifitem_changes.kind = /*msg*/ ctx[1].kind;
+    			if (dirty & /*$messages*/ 2) notifitem_changes.text = /*msg*/ ctx[2].text;
+    			if (dirty & /*$messages*/ 2) notifitem_changes.kind = /*msg*/ ctx[2].kind;
+    			if (dirty & /*timeout*/ 1) notifitem_changes.timeout = /*timeout*/ ctx[0];
     			notifitem.$set(notifitem_changes);
     		},
     		i: function intro(local) {
@@ -1645,6 +1762,7 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(first);
     			destroy_component(notifitem, detaching);
     		}
     	};
@@ -1653,7 +1771,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(38:1) {#each $messages as msg}",
+    		source: "(41:1) {#each $messages as msg (msg)}",
     		ctx
     	});
 
@@ -1662,18 +1780,19 @@ var app = (function () {
 
     function create_fragment$4(ctx) {
     	let div;
-    	let current;
-    	let each_value = /*$messages*/ ctx[0];
-    	validate_each_argument(each_value);
     	let each_blocks = [];
+    	let each_1_lookup = new Map();
+    	let current;
+    	let each_value = /*$messages*/ ctx[1];
+    	validate_each_argument(each_value);
+    	const get_key = ctx => /*msg*/ ctx[2];
+    	validate_each_keys(ctx, each_value, get_each_context, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    		let child_ctx = get_each_context(ctx, each_value, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block(key, child_ctx));
     	}
-
-    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
-    		each_blocks[i] = null;
-    	});
 
     	const block = {
     		c: function create() {
@@ -1684,7 +1803,7 @@ var app = (function () {
     			}
 
     			attr_dev(div, "class", "wui-notif svelte-xdooa2");
-    			add_location(div, file$4, 36, 0, 623);
+    			add_location(div, file$4, 39, 0, 670);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1699,31 +1818,12 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*$messages*/ 1) {
-    				each_value = /*$messages*/ ctx[0];
+    			if (dirty & /*$messages, timeout*/ 3) {
+    				const each_value = /*$messages*/ ctx[1];
     				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    						transition_in(each_blocks[i], 1);
-    					} else {
-    						each_blocks[i] = create_each_block(child_ctx);
-    						each_blocks[i].c();
-    						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div, null);
-    					}
-    				}
-
     				group_outros();
-
-    				for (i = each_value.length; i < each_blocks.length; i += 1) {
-    					out(i);
-    				}
-
+    				validate_each_keys(ctx, each_value, get_each_context, get_key);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, div, outro_and_destroy_block, create_each_block, null, get_each_context);
     				check_outros();
     			}
     		},
@@ -1737,8 +1837,6 @@ var app = (function () {
     			current = true;
     		},
     		o: function outro(local) {
-    			each_blocks = each_blocks.filter(Boolean);
-
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				transition_out(each_blocks[i]);
     			}
@@ -1747,7 +1845,10 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			destroy_each(each_blocks, detaching);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
     		}
     	};
 
@@ -1776,8 +1877,9 @@ var app = (function () {
     function instance$4($$self, $$props, $$invalidate) {
     	let $messages;
     	validate_store(messages, "messages");
-    	component_subscribe($$self, messages, $$value => $$invalidate(0, $messages = $$value));
-    	const writable_props = [];
+    	component_subscribe($$self, messages, $$value => $$invalidate(1, $messages = $$value));
+    	let { timeout = 5000 } = $$props;
+    	const writable_props = ["timeout"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Notif> was created with unknown prop '${key}'`);
@@ -1786,21 +1888,34 @@ var app = (function () {
     	let { $$slots = {}, $$scope } = $$props;
     	validate_slots("Notif", $$slots, []);
 
+    	$$self.$set = $$props => {
+    		if ("timeout" in $$props) $$invalidate(0, timeout = $$props.timeout);
+    	};
+
     	$$self.$capture_state = () => ({
     		messages,
     		NotifItem,
     		WuiPushNotif,
+    		timeout,
     		$messages
     	});
 
-    	return [$messages];
+    	$$self.$inject_state = $$props => {
+    		if ("timeout" in $$props) $$invalidate(0, timeout = $$props.timeout);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [timeout, $messages];
     }
 
     class Notif extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
     		if (!document.getElementById("svelte-xdooa2-style")) add_css$4();
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, {});
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { timeout: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -1808,6 +1923,14 @@ var app = (function () {
     			options,
     			id: create_fragment$4.name
     		});
+    	}
+
+    	get timeout() {
+    		throw new Error("<Notif>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set timeout(value) {
+    		throw new Error("<Notif>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -1817,7 +1940,7 @@ var app = (function () {
     function add_css$5() {
     	var style = element("style");
     	style.id = "svelte-qjrqwg-style";
-    	style.textContent = "button.push-notif.svelte-qjrqwg{position:fixed;bottom:1em;left:1em}button.push-notif.error.svelte-qjrqwg{position:fixed;bottom:1em;left:12em}div.test-label-input.svelte-qjrqwg{margin:0 0 1em 0}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwLnN2ZWx0ZSIsInNvdXJjZXMiOlsiQXBwLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBXdWlJbnB1dElQUG9ydCB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cdGltcG9ydCB7IFd1aUlucHV0TnVtYmVyIH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTGFiZWxIaW50IH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTm90aWYsIFd1aVB1c2hOb3RpZiB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cblx0bGV0IG4gPSAwO1xuXHRmdW5jdGlvbiBzaG93Tm90aWZpY2F0aW9uKGtpbmQpIHtcblx0XHRuID0gbiArIDFcblx0XHRpZiAoa2luZCA9PT0gXCJlcnJvclwiKSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuRXJyb3IoXCJ0ZXN0IFwiK24pO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuSW5mbyhcInRlc3QgXCIrbik7XG5cdFx0fVxuXHR9XG5cblx0bGV0IGFkZHJlc3MgPSBcIlwiO1xuXHRsZXQgbnVtYmVyID0gMDtcbjwvc2NyaXB0PlxuXG48c3R5bGU+XG5cdGJ1dHRvbi5wdXNoLW5vdGlmIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMWVtO1xuXHR9XG5cdGJ1dHRvbi5wdXNoLW5vdGlmLmVycm9yIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMTJlbTtcblx0fVxuXG5cdGRpdi50ZXN0LWxhYmVsLWlucHV0IHtcblx0XHRtYXJnaW46IDAgMCAxZW0gMDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0IHtcblx0XHR3aWR0aDogMTAwJTtcblx0XHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0ID4gc3BhbiB7XG5cdFx0ZGlzcGxheTogaW5saW5lLWJsb2NrO1xuXHRcdHdpZHRoOiAyMDBweDtcblx0fVxuPC9zdHlsZT5cblxuPG1haW4+XG5cdDxXdWlOb3RpZiAvPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiXCIpfT5cblx0XHRQdXNoIGluZm8gbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmIGVycm9yXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiZXJyb3JcIil9PlxuXHRcdFB1c2ggZXJyb3Igbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0SVBQb3J0XCJcblx0XHRcdGluZm89XCJJbnB1dCBJUCBhZGRyZXNzIGFuZCBwb3J0IG51bWJlclwiXG5cdFx0PlxuXHRcdFx0PFd1aUlucHV0SVBQb3J0IGJpbmQ6dmFsdWU9e2FkZHJlc3N9Lz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7YWRkcmVzc31cblx0XHQ8L2Rpdj5cblx0PC9kaXY+XG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0TnVtYmVyXCJcblx0XHRcdGluZm89XCJJbnB1dCBudW1iZXIgd2l0aCBtaW5pbXVtIHZhbHVlIGlzIDEgYW5kIG1heGltdW0gaXMgMTBcIlxuXHRcdD5cblx0XHRcdDxXdWlJbnB1dE51bWJlciBtYXg9MTAgbWluPTEgYmluZDp2YWx1ZT17bnVtYmVyfSB1bml0PVwic2Vjb25kc1wiLz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7bnVtYmVyfVxuXHRcdDwvZGl2PlxuXHQ8L2Rpdj5cblxuXHR7I2VhY2ggbmV3IEFycmF5KDEwMDApIGFzIHgsIGlkeH1cblx0PGRpdj5cblx0XHR7aWR4fVxuXHQ8L2Rpdj5cblx0ey9lYWNofVxuPC9tYWluPlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXFCQyxNQUFNLFdBQVcsY0FBQyxDQUFDLEFBQ2xCLFFBQVEsQ0FBRSxLQUFLLENBQ2YsTUFBTSxDQUFFLEdBQUcsQ0FDWCxJQUFJLENBQUUsR0FBRyxBQUNWLENBQUMsQUFDRCxNQUFNLFdBQVcsTUFBTSxjQUFDLENBQUMsQUFDeEIsUUFBUSxDQUFFLEtBQUssQ0FDZixNQUFNLENBQUUsR0FBRyxDQUNYLElBQUksQ0FBRSxJQUFJLEFBQ1gsQ0FBQyxBQUVELEdBQUcsaUJBQWlCLGNBQUMsQ0FBQyxBQUNyQixNQUFNLENBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxBQUNsQixDQUFDIn0= */";
+    	style.textContent = "button.push-notif.svelte-qjrqwg{position:fixed;bottom:1em;left:1em}button.push-notif.error.svelte-qjrqwg{position:fixed;bottom:1em;left:12em}div.test-label-input.svelte-qjrqwg{margin:0 0 1em 0}\n/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwLnN2ZWx0ZSIsInNvdXJjZXMiOlsiQXBwLnN2ZWx0ZSJdLCJzb3VyY2VzQ29udGVudCI6WyI8c2NyaXB0PlxuXHRpbXBvcnQgeyBXdWlJbnB1dElQUG9ydCB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cdGltcG9ydCB7IFd1aUlucHV0TnVtYmVyIH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTGFiZWxIaW50IH0gZnJvbSAnLi9jb21wb25lbnRzL2luZGV4Jztcblx0aW1wb3J0IHsgV3VpTm90aWYsIFd1aVB1c2hOb3RpZiB9IGZyb20gJy4vY29tcG9uZW50cy9pbmRleCc7XG5cblx0bGV0IG4gPSAwO1xuXHRmdW5jdGlvbiBzaG93Tm90aWZpY2F0aW9uKGtpbmQpIHtcblx0XHRuID0gbiArIDFcblx0XHRpZiAoa2luZCA9PT0gXCJlcnJvclwiKSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuRXJyb3IoXCJ0ZXN0IFwiK24pO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRXdWlQdXNoTm90aWYuSW5mbyhcInRlc3QgXCIrbik7XG5cdFx0fVxuXHR9XG5cblx0bGV0IGFkZHJlc3MgPSBcIlwiO1xuXHRsZXQgbnVtYmVyID0gMDtcbjwvc2NyaXB0PlxuXG48c3R5bGU+XG5cdGJ1dHRvbi5wdXNoLW5vdGlmIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMWVtO1xuXHR9XG5cdGJ1dHRvbi5wdXNoLW5vdGlmLmVycm9yIHtcblx0XHRwb3NpdGlvbjogZml4ZWQ7XG5cdFx0Ym90dG9tOiAxZW07XG5cdFx0bGVmdDogMTJlbTtcblx0fVxuXG5cdGRpdi50ZXN0LWxhYmVsLWlucHV0IHtcblx0XHRtYXJnaW46IDAgMCAxZW0gMDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0IHtcblx0XHR3aWR0aDogMTAwJTtcblx0XHRkaXNwbGF5OiBpbmxpbmUtZmxleDtcblx0fVxuXHRsYWJlbC50ZXN0LWlucHV0ID4gc3BhbiB7XG5cdFx0ZGlzcGxheTogaW5saW5lLWJsb2NrO1xuXHRcdHdpZHRoOiAyMDBweDtcblx0fVxuPC9zdHlsZT5cblxuPG1haW4+XG5cdDxXdWlOb3RpZiB0aW1lb3V0PXsxMDAwfSAvPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiXCIpfT5cblx0XHRQdXNoIGluZm8gbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cdDxidXR0b24gY2xhc3M9XCJwdXNoLW5vdGlmIGVycm9yXCIgb246Y2xpY2s9eygpPT5zaG93Tm90aWZpY2F0aW9uKFwiZXJyb3JcIil9PlxuXHRcdFB1c2ggZXJyb3Igbm90aWZpY2F0aW9uXG5cdDwvYnV0dG9uPlxuXG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0SVBQb3J0XCJcblx0XHRcdGluZm89XCJJbnB1dCBJUCBhZGRyZXNzIGFuZCBwb3J0IG51bWJlclwiXG5cdFx0PlxuXHRcdFx0PFd1aUlucHV0SVBQb3J0IGJpbmQ6dmFsdWU9e2FkZHJlc3N9Lz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7YWRkcmVzc31cblx0XHQ8L2Rpdj5cblx0PC9kaXY+XG5cblx0PGRpdiBjbGFzcz1cInRlc3QtbGFiZWwtaW5wdXRcIj5cblx0XHQ8V3VpTGFiZWxIaW50XG5cdFx0XHR0aXRsZT1cIklucHV0TnVtYmVyXCJcblx0XHRcdGluZm89XCJJbnB1dCBudW1iZXIgd2l0aCBtaW5pbXVtIHZhbHVlIGlzIDEgYW5kIG1heGltdW0gaXMgMTBcIlxuXHRcdD5cblx0XHRcdDxXdWlJbnB1dE51bWJlciBtYXg9MTAgbWluPTEgYmluZDp2YWx1ZT17bnVtYmVyfSB1bml0PVwic2Vjb25kc1wiLz5cblx0XHQ8L1d1aUxhYmVsSGludD5cblx0XHQ8ZGl2PlxuXHRcdFx0T3V0cHV0OiB7bnVtYmVyfVxuXHRcdDwvZGl2PlxuXHQ8L2Rpdj5cblxuXHR7I2VhY2ggbmV3IEFycmF5KDEwMDApIGFzIHgsIGlkeH1cblx0PGRpdj5cblx0XHR7aWR4fVxuXHQ8L2Rpdj5cblx0ey9lYWNofVxuPC9tYWluPlxuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQXFCQyxNQUFNLFdBQVcsY0FBQyxDQUFDLEFBQ2xCLFFBQVEsQ0FBRSxLQUFLLENBQ2YsTUFBTSxDQUFFLEdBQUcsQ0FDWCxJQUFJLENBQUUsR0FBRyxBQUNWLENBQUMsQUFDRCxNQUFNLFdBQVcsTUFBTSxjQUFDLENBQUMsQUFDeEIsUUFBUSxDQUFFLEtBQUssQ0FDZixNQUFNLENBQUUsR0FBRyxDQUNYLElBQUksQ0FBRSxJQUFJLEFBQ1gsQ0FBQyxBQUVELEdBQUcsaUJBQWlCLGNBQUMsQ0FBQyxBQUNyQixNQUFNLENBQUUsQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxBQUNsQixDQUFDIn0= */";
     	append_dev(document.head, style);
     }
 
@@ -1973,7 +2096,7 @@ var app = (function () {
     			div = element("div");
     			t0 = text(/*idx*/ ctx[10]);
     			t1 = space();
-    			add_location(div, file$5, 82, 1, 1572);
+    			add_location(div, file$5, 82, 1, 1587);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2022,7 +2145,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	wuinotif = new Notif({ $$inline: true });
+    	wuinotif = new Notif({ props: { timeout: 1000 }, $$inline: true });
 
     	wuilabelhint0 = new LabelHint({
     			props: {
@@ -2083,15 +2206,15 @@ var app = (function () {
     			}
 
     			attr_dev(button0, "class", "push-notif svelte-qjrqwg");
-    			add_location(button0, file$5, 48, 1, 822);
+    			add_location(button0, file$5, 48, 1, 837);
     			attr_dev(button1, "class", "push-notif error svelte-qjrqwg");
-    			add_location(button1, file$5, 52, 1, 924);
-    			add_location(div0, file$5, 64, 2, 1218);
+    			add_location(button1, file$5, 52, 1, 939);
+    			add_location(div0, file$5, 64, 2, 1233);
     			attr_dev(div1, "class", "test-label-input svelte-qjrqwg");
-    			add_location(div1, file$5, 57, 1, 1039);
-    			add_location(div2, file$5, 76, 2, 1492);
+    			add_location(div1, file$5, 57, 1, 1054);
+    			add_location(div2, file$5, 76, 2, 1507);
     			attr_dev(div3, "class", "test-label-input svelte-qjrqwg");
-    			add_location(div3, file$5, 69, 1, 1264);
+    			add_location(div3, file$5, 69, 1, 1279);
     			add_location(main, file$5, 45, 0, 799);
     		},
     		l: function claim(nodes) {

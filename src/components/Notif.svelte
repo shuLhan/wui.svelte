@@ -18,6 +18,9 @@
 		}
 	}
 </script>
+<script>
+	export let timeout = 5000;
+</script>
 
 <style>
 	.wui-notif {
@@ -36,6 +39,6 @@
 
 <div class="wui-notif">
 	{#each $messages as msg (msg)}
-	<NotifItem text={msg.text} kind="{msg.kind}"/>
+	<NotifItem text={msg.text} kind="{msg.kind}" {timeout}/>
 	{/each}
 </div>
