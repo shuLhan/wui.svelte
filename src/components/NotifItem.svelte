@@ -10,7 +10,7 @@
 		let timerID = setTimeout(()=> {
 			messages.update(msgs => {
 				msgs.splice(0, 1);
-				return msgs
+				msgs = msgs
 			})
 		}, 5000)
 	})

@@ -35,7 +35,7 @@
 </style>
 
 <div class="wui-notif">
-	{#each $messages as msg}
+	{#each $messages as msg (msg)}
 	<NotifItem text={msg.text} kind="{msg.kind}"/>
 	{/each}
 </div>
