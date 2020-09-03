@@ -1,6 +1,6 @@
 <script>
-	export let title;
-	export let info;
+	export let title = "";
+	export let info = "";
 	export let title_width = "300px";
 	let showInfo = false;
 </script>
